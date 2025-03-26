@@ -1,7 +1,4 @@
-import sys, string, os
-import subprocess
-import time
-
+import sys, string, os, subprocess, time
 # Direct input including the scheme example: myapplication://field1/field2/field3/
 raw_input = sys.argv[1]
 # Sanitized input removing scheme and leaving "path" example: field1/field2/field3/
