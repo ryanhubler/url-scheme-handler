@@ -5,10 +5,10 @@ raw_input = sys.argv[1]
 scheme_removed = raw_input.strip("myapp://")
 
 # Removes / and replaces it with a ,
-string_with_spaces = scheme_removed.replace("/", ",")
+path = scheme_removed.replace("/", ",")
 
 # Removes ending / 
-finished_input = string_with_spaces.strip("/")
+finished_input = path.strip("/")
 
 # Converts finished_input to a list arg
 arg = finished_input.split(",")
