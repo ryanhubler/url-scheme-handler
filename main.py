@@ -1,17 +1,42 @@
-import sys, string, os, subprocess, time
-# Direct input including the scheme example: myapplication://field1/field2/field3/
-raw_input = sys.argv[1]
-# Sanitized input removing scheme and leaving "path" example: field1/field2/field3/
-scheme_removed = raw_input.strip("myapp://")
+import sys
+import os
+import subprocess
+import time
 
-# Removes / and replaces it with a ,
-path = scheme_removed.replace("/", ",")
+# Define executable path
+exe_path = r"C:/Program Files (x86)/myapp/bin/MXAdmin.exe"
 
-# Removes ending / 
-finished_input = path.strip("/")
+# Verify executable exists
+if not os.path.exists(exe_path):
+    sys.stderr.write(f"Error: Executable not found at {exe_path}\n")
+    sys.exit(1)
 
-# Converts finished_input to a list arg
-arg = finished_input.split(",")
+# Get raw input if provided
+raw_input = sys.argv[1] if len(sys.argv) > 1 else ""
 
-# Starts myapp.exe with arguments of arg[0], arg[1], arg[2] this can be expanded or reduced depending on how many arguments are needed
-subprocess.check_call([r"C:/Program Files (x86)/myapp/bin/myapp.exe", arg[0], arg[1], arg[2] ])
+try:
+    # Remove scheme if present
+    if raw_input.startswith("myapp://"):
+        scheme_removed = raw_input[len("myapp://"):]
+    else:
+        scheme_removed = raw_input
+
+    # Convert path to arguments
+    path = scheme_removed.replace("/", ",").strip(",")
+    arg = [x for x in path.split(",") if x]  # Remove empty strings, create list of all arguments
+
+    # Start process with all available arguments
+    command = [exe_path] + arg
+    subprocess.check_call(command)
+
+except Exception as e:
+    # On any error, log it and run myapp.exe with no arguments
+    sys.stderr.write(f"Error processing input: {e}\n")
+    try:
+        subprocess.check_call([exe_path])
+    except subprocess.CalledProcessError as e2:
+        sys.stderr.write(f"Error running executable with no arguments: {e2}\n")
+        sys.exit(1)
+    except Exception as e2:
+        sys.stderr.write(f"Unexpected error running executable with no arguments: {e2}\n")
+        sys.exit(1)
