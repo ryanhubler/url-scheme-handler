@@ -4,7 +4,7 @@ import subprocess
 import time
 
 # Define executable path
-exe_path = r"C:/Program Files (x86)/myapp/bin/MXAdmin.exe"
+exe_path = r"C:/Program Files (x86)/myapp/bin/myapp.exe"
 
 # Verify executable exists
 if not os.path.exists(exe_path):
