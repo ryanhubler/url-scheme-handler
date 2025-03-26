@@ -3,3 +3,4 @@
 ## How to use the handler
  - Tweak script as needed for your application
  - Convert to EXE
+ - Add to registy from guide above
